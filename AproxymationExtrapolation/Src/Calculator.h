@@ -6,6 +6,9 @@ class Calculator
 {
 public:
     Calculator();
+
+private:
+
 };
 
 #endif // CALCULATOR_H
