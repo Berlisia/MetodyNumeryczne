@@ -1,0 +1,4 @@
+#ifndef LLNFROMVALUES_H
+#define LLNFROMVALUES_H
+
+#endif // LLNFROMVALUES_H

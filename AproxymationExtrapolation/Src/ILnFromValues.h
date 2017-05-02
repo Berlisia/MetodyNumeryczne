@@ -1,0 +1,4 @@
+#ifndef ILNFROMVALUES_H
+#define ILNFROMVALUES_H
+
+#endif // ILNFROMVALUES_H
