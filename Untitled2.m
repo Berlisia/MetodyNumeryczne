@@ -17,9 +17,24 @@ wsp1 = wsp1Licznik/wsp1Mianownik;
 
 sredniaX = mean(x);
 sredniaz = mean(logy);
-
-wsp0 = sredniaz - wsp1 * sredniaX;
-
-wspB = wsp1;
+wsp0 = sredniaz - (wsp1 * sredniaX);
 wspA = exp(wsp0);
+wspB = wsp1;
 f(x) = wspA * exp(wspB*x);
+
+%Dok³adnoœæ regresji
+
+sredniaY = mean(y);
+
+roznicay = y - sredniaY;
+roznicay2 = roznicay.^2;
+St = sum(roznicay2);
+Sy = (St/(n-1))^(1/2);
+roznicaDlaSr = y - wsp0 - wsp1 .* x;
+Sr = sum((roznicaDlaSr).^2);
+Syx = (Sr/(n-2))^(1/2);
+
+%wspó³czynnik korelacji
+r = abs(((St - Sr)/St)^(1/2));
+
+
