@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     Test/lnfromvaluestest.cpp \
     Test/linearyzatortestsuit.cpp \
     Src/DataBase.cpp \
-    Test/Clalculatortestsuit.cpp
+    Test/Clalculatortestsuit.cpp \
+    Src/Accuracy.cpp \
+    Src/qcustomplot.cpp
 
 HEADERS  += App/mainwindow.h \
     Src/Calculator.h \
@@ -35,6 +37,8 @@ HEADERS  += App/mainwindow.h \
     Src/ILinearyzator.h \
     Src/DataBase.h \
     Test/ILinearyzatorMock.h \
-    Test/databasemock.h
+    Test/databasemock.h \
+    Src/Accuracy.h \
+    Src/qcustomplot.h
 
 FORMS    += mainwindow.ui
