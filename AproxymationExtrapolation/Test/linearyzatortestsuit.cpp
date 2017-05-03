@@ -14,8 +14,8 @@ const std::vector<float> vectorOfLnY{2.000127734960111,
                                      6.000002990628037,
                                      8.000000675272045};
 
-std::pair<float,float> linearyzationFactors(1.000144349116847,
-                                            1.999958792881299);
+std::pair<float,float> linearyzationFactors(1.0000414848327637, //a
+                                            2.0); //b=a1
 }
 
 class LinearyzatorTestSuit : public testing::Test

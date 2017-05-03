@@ -1,14 +1,12 @@
 #ifndef LINEARYZATOR_H
 #define LINEARYZATOR_H
 
+#include "ILinearyzator.h"
 #include <vector>
-#include <utility>
-#include <numeric>
-#include <cassert>
 
 class ILnFromValues;
 
-class Linearyzator
+class Linearyzator : public ILinearyzator
 {
 public:
     Linearyzator(const std::vector<float>& p_vectorOfOrdinates,
@@ -18,10 +16,10 @@ public:
     {
     }
 
-    std::pair<float,float> calculateFactors();
+    std::pair<float,float> calculateFactors() override;
 private:
     float calculateA1();
-    float calculateA0(float factorA1);
+    float calculateA0(const float factorA1);
     float sumOfMultiplicationXY();
     float sumOfX();
     float sumOfY();
@@ -30,13 +28,5 @@ private:
     const std::vector<float>& m_vectorOfOrdinates; //X;
     const ILnFromValues& m_vectorOfLnSevered; //Y;
 };
-
-template <typename It>
-auto average(It begin, It end)
-{
-    assert(begin != end);
-    auto s = std::accumulate(begin, end, 0.0);
-    return s / std::distance(begin, end);
-}
 
 #endif // LINEARYZATOR_H

@@ -1,12 +1,12 @@
 #include "Linearyzator.h"
 #include "Lnfromvalues.h"
-
+#include <cmath>
 using namespace std;
 
 pair<float, float> Linearyzator::calculateFactors()
 {
     float factorA1 = calculateA1();
-    float factorA0 = calculateA0(factorA1);
+    float factorA0 = exp(calculateA0(factorA1)); //1.000144349116847
     pair<float, float> factors(factorA0, factorA1);
     return factors;
 }
@@ -19,12 +19,13 @@ float Linearyzator::calculateA1()
     return A1;
 }
 
-float Linearyzator::calculateA0(float factorA1)
+float Linearyzator::calculateA0(const float factorA1)
 {
-    return average(m_vectorOfLnSevered.getVectorOfSevered().begin(),
-                   m_vectorOfLnSevered.getVectorOfSevered().end()) -
-           factorA1 *
-           average(m_vectorOfOrdinates.begin(), m_vectorOfOrdinates.end());
+    float averageZ = average(m_vectorOfLnSevered.getVectorOfSevered().begin(),
+                             m_vectorOfLnSevered.getVectorOfSevered().end());
+    float averageX = average(m_vectorOfOrdinates.begin(), m_vectorOfOrdinates.end());
+
+    return averageZ - (factorA1 * averageX);
 }
 
 float Linearyzator::sumOfMultiplicationXY()

@@ -14,7 +14,7 @@ public:
 
     const std::vector<float>& getVectorOfSevered() const override;
 private:
-    void calculateLn(const std::vector<float> &getVectorOfSevered);
+    void calculateLn(const std::vector<float> &p_vectorOfValues);
 
     std::vector<float> m_vectorOfLnSevered;
 };
