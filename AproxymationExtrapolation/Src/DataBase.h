@@ -1,20 +1,25 @@
 #ifndef DATABASE_H
 #define DATABASE_H
-#include <vector>
+#include <qvector>
+#include <string>
 
 class DataBase
 {
 public:    
-    void setDataOfOrdinates(const float p_X);
-    void setDataOfSevered(const float p_Y);
+    void setDataOfOrdinates(const double p_X);
+    void setDataOfSevered(const double p_Y);
+    void setDataFileName(std::string p_name);
 
-    const std::vector<float>& getVectorOfOrdinates() const;
-    const std::vector<float>& getVectorOfSevered() const;
+    const QVector<double>& getVectorOfOrdinates() const;
+    const QVector<double>& getVectorOfSevered() const;
+    std::string getFileName();
 
     void clearDataBase();
 private:
-    std::vector<float> m_vectorOfOrdinates; //X
-    std::vector<float> m_vectorOfSevered; //Y
+    QVector<double> m_vectorOfOrdinates; //X
+    QVector<double> m_vectorOfSevered; //Y
+
+    std::string m_dataFileName;
 };
 
 #endif // DATABASE_H

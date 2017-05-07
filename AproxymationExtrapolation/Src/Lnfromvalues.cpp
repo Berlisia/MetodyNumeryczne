@@ -3,15 +3,15 @@
 
 using namespace std;
 
-const std::vector<float> &LnFromValues::getVectorOfSevered() const
+const QVector<double> LnFromValues::getVectorOfSevered() const
 {
     return m_vectorOfLnSevered;
 }
 
-void LnFromValues::calculateLn(const std::vector<float>& p_vectorOfValues)
+void LnFromValues::calculateLn(const QVector<double>& p_vectorOfValues)
 {
     for(auto value : p_vectorOfValues)
     {
-        m_vectorOfLnSevered.push_back(log(value));
+        m_vectorOfLnSevered.append(log(value));
     }
 }

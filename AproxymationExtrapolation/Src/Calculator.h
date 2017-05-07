@@ -14,8 +14,8 @@ public:
     Calculator(const DataBase& p_dataBase);
 
     std::pair<float,float> calculate();
-    QVector<float>& getVectorOfResultY();
-    QVector<float>& getVectorOfResultX();
+    const QVector<double> getVectorOfResultY();
+    const QVector<double> getVectorOfResultX();
 private:
     void calculateResults(std::pair<float, float> p_factors);
 
@@ -23,8 +23,8 @@ private:
     std::unique_ptr<ILnFromValues> m_lnFromSevered;
     std::unique_ptr<ILinearyzator> m_linearyzator;
 
-    QVector<float> m_vectorOfResultY;
-    QVector<float> m_vectorOfResultX;
+    QVector<double> m_vectorOfResultY;
+    QVector<double> m_vectorOfResultX;
 };
 
 #endif // CALCULATOR_H

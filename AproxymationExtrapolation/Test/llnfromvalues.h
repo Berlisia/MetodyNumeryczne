@@ -6,7 +6,7 @@
 class LnFromValuesMock : public ILnFromValues
 {
 public:
-    MOCK_CONST_METHOD0(getVectorOfSevered, const std::vector<float>&());
+    MOCK_CONST_METHOD0(getVectorOfSevered, const QVector<double>());
 };
 
 #endif // LLNFROMVALUES_H

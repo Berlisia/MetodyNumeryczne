@@ -2,22 +2,48 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "Src/qcustomplot.h"
+#include <memory>
+#include <utility>
 
 namespace Ui {
 class MainWindow;
 }
+class DataBase;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(DataBase& p_dataBase, QWidget *parent = 0);
     ~MainWindow();
 
-    void setResult(const QVector<float> &p_x, const QVector<float> &p_y);
+    void setResult(const QVector<double> &p_x, const QVector<double> &p_y);
+    void setInputPoints(const QVector<double> &p_x, const QVector<double> &p_y);
+    void showFileError();
+    void showFileOk();
+    void showFactors(std::pair<float, float> p_factors);
+
+signals:
+    void applyNewFile();
+    void calculatePressed();
+
+private slots:
+    void horzScrollBarChanged(int value);
+    void vertScrollBarChanged(int value);
+    void xAxisChanged(QCPRange range);
+    void yAxisChanged(QCPRange range);
+    void loadFile();
+
 private:
+    void setupMenu();
+    void setupConnectionForZoom();
+    void updateAxis();
+
+    DataBase& m_dataBase;
     Ui::MainWindow *ui;
+    std::unique_ptr<QMessageBox> m_messageBox;
 };
 
 #endif // MAINWINDOW_H

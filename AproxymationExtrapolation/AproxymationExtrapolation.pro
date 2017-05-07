@@ -47,3 +47,6 @@ HEADERS  += App/mainwindow.h \
     Src/Controler.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    resources.qrc

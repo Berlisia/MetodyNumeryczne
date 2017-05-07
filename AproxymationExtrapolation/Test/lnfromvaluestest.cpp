@@ -3,10 +3,10 @@
 
 namespace
 {
-const std::vector<float> vectorOfValueY{7.39, 54.60, 403.43, 2980.96};
-const std::vector<float> vectorOfX{1,2,3,4};
+const QVector<double> vectorOfValueY{7.39, 54.60, 403.43, 2980.96};
+const QVector<double> vectorOfX{1,2,3,4};
 
-const std::vector<float> vectorOfLnY{2.000127734960111,
+const QVector<double> vectorOfLnY{2.000127734960111,
                                      4.000033882750859,
                                      6.000002990628037,
                                      8.000000675272045};
@@ -24,7 +24,7 @@ public:
 
 TEST_F(LnFromValuesTestSuit, shouldCorrectReturnLnFromVectorOfValueY)
 {
-    const std::vector<float>& l_vector = sut.getVectorOfSevered();
+    const QVector<double> l_vector = sut.getVectorOfSevered();
 
     for(unsigned i = 0; i < l_vector.size(); i++)
     {

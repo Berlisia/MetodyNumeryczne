@@ -7,16 +7,16 @@
 class LnFromValues : public ILnFromValues
 {
 public:
-    LnFromValues(const std::vector<float>& p_vectorOfValues)
+    LnFromValues(const QVector<double>& p_vectorOfValues)
     {
         calculateLn(p_vectorOfValues);
     }
 
-    const std::vector<float>& getVectorOfSevered() const override;
-private:
-    void calculateLn(const std::vector<float> &p_vectorOfValues);
+    const QVector<double> getVectorOfSevered() const override;
+    void calculateLn(const QVector<double> &p_vectorOfValues) override;
 
-    std::vector<float> m_vectorOfLnSevered;
+private:
+    QVector<double> m_vectorOfLnSevered;
 };
 
 #endif // LNFROMVALUES_H

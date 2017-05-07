@@ -2,14 +2,14 @@
 #define LINEARYZATOR_H
 
 #include "ILinearyzator.h"
-#include <vector>
+#include <qvector>
 
 class ILnFromValues;
 
 class Linearyzator : public ILinearyzator
 {
 public:
-    Linearyzator(const std::vector<float>& p_vectorOfOrdinates,
+    Linearyzator(const QVector<double>& p_vectorOfOrdinates,
                  const ILnFromValues& p_vectorOfSevered)
         : m_vectorOfOrdinates(p_vectorOfOrdinates),
           m_vectorOfLnSevered(p_vectorOfSevered)
@@ -25,7 +25,7 @@ private:
     float sumOfY();
     float sumOfX2();
 
-    const std::vector<float>& m_vectorOfOrdinates; //X;
+    const QVector<double>& m_vectorOfOrdinates; //X;
     const ILnFromValues& m_vectorOfLnSevered; //Y;
 };
 
