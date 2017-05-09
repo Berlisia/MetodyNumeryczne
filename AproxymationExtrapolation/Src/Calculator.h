@@ -13,11 +13,11 @@ class Calculator
 public:
     Calculator(const DataBase& p_dataBase);
 
-    std::pair<float,float> calculate();
+    std::pair<double, double> calculate();
     const QVector<double> getVectorOfResultY();
     const QVector<double> getVectorOfResultX();
 private:
-    void calculateResults(std::pair<float, float> p_factors);
+    void calculateResults(std::pair<double, double> p_factors);
 
     const DataBase& m_dataBase;
     std::unique_ptr<ILnFromValues> m_lnFromSevered;

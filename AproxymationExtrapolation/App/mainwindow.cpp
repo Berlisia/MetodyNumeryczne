@@ -8,8 +8,8 @@
 
 
 MainWindow::MainWindow(DataBase& p_dataBase, QWidget *parent) :
-    m_dataBase(p_dataBase),
     QMainWindow(parent),
+    m_dataBase(p_dataBase),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -47,7 +47,7 @@ void MainWindow::setInputPoints(const QVector<double>& p_x, const QVector<double
     ui->customPlot->graph()->setPen(QPen(Qt::red));
     ui->customPlot->graph()->setData(p_x, p_y);
     ui->customPlot->axisRect()->setupFullAxesBox(true);
-    ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+    ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);//cos ze skalaS
     ui->customPlot->replot();
 }
 
@@ -67,7 +67,7 @@ void MainWindow::showFileOk()
     m_messageBox->show();
 }
 
-void MainWindow::showFactors(std::pair<float, float> p_factors)
+void MainWindow::showFactors(std::pair<double, double> p_factors)
 {
     m_messageBox = std::make_unique<QMessageBox>();
     m_messageBox->setText("A = " + QString::number(p_factors.first) + " B = " + QString::number(p_factors.second));

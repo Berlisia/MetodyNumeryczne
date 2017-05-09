@@ -10,10 +10,10 @@ Calculator::Calculator(const DataBase& p_dataBase) : m_dataBase(p_dataBase)
                                                     *m_lnFromSevered.get());
 }
 
-std::pair<float, float> Calculator::calculate()
+std::pair<double, double> Calculator::calculate()
 {
     m_lnFromSevered->calculateLn(m_dataBase.getVectorOfSevered());
-    std::pair<float, float> factors = m_linearyzator->calculateFactors();
+    std::pair<double, double> factors = m_linearyzator->calculateFactors();
     calculateResults(factors);
     return factors;
 }
@@ -28,10 +28,10 @@ const QVector<double> Calculator::getVectorOfResultX()
     return m_vectorOfResultX;
 }
 
-void Calculator::calculateResults(std::pair<float, float> p_factors)
+void Calculator::calculateResults(std::pair<double, double> p_factors)
 {
     unsigned size = m_dataBase.getVectorOfOrdinates().size();
-    float i = m_dataBase.getVectorOfOrdinates()[0];
+    double i = m_dataBase.getVectorOfOrdinates()[0];
     for(; i < m_dataBase.getVectorOfOrdinates()[size - 1]; i = i + 0.002)
     {
         m_vectorOfResultX.append(i);

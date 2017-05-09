@@ -23,7 +23,7 @@ public:
     void setInputPoints(const QVector<double> &p_x, const QVector<double> &p_y);
     void showFileError();
     void showFileOk();
-    void showFactors(std::pair<float, float> p_factors);
+    void showFactors(std::pair<double, double> p_factors);
 
 signals:
     void applyNewFile();

@@ -6,7 +6,7 @@
 class ILinearyzatorMock : public ILinearyzator
 {
 public:
-    MOCK_METHOD0(calculateFactors, std::pair<float,float>());
+    MOCK_METHOD0(calculateFactors, std::pair<double,double>());
 };
 
 #endif // ILINEARYZATORMOCK_H

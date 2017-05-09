@@ -13,8 +13,8 @@ void Controler::loadFile()
         {
             getline(l_file, l_valueXBuff,';');
             getline(l_file, l_valueYBuff);
-            const float l_valueX = stof(l_valueXBuff);
-            const float l_valueY = stof(l_valueYBuff);
+            const double l_valueX = stof(l_valueXBuff);
+            const double l_valueY = stof(l_valueYBuff);
             m_dataBase.setDataOfOrdinates(l_valueX);
             m_dataBase.setDataOfSevered(l_valueY);
         }
@@ -28,7 +28,7 @@ void Controler::loadFile()
 
 void Controler::makeCalculation()
 {
-    std::pair<float, float> l_factors = m_calculator.calculate();
+    std::pair<double, double> l_factors = m_calculator.calculate();
     m_mainWindow->showFactors(l_factors);
     m_mainWindow->setResult(m_calculator.getVectorOfResultX(), m_calculator.getVectorOfResultY());
 }

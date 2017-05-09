@@ -16,17 +16,29 @@ public:
     {
     }
 
-    std::pair<float,float> calculateFactors() override;
+    std::pair<double,double> calculateFactors() override;
 private:
-    float calculateA1();
-    float calculateA0(const float factorA1);
-    float sumOfMultiplicationXY();
-    float sumOfX();
-    float sumOfY();
-    float sumOfX2();
+    double calculateA1();
+    double calculateA0(const double factorA1);
+    double sumOfMultiplicationXY();
+    double sumOfX2();
 
     const QVector<double>& m_vectorOfOrdinates; //X;
     const ILnFromValues& m_vectorOfLnSevered; //Y;
 };
+
+template<typename It>
+auto sum(It begin, It end)
+{
+    auto sum = std::accumulate(begin, end, 0.0);
+    return sum;
+}
+
+template<typename It>
+auto mean(It begin, It end)
+{
+    auto mean = sum(begin, end) / static_cast<double>(std::distance(begin, end));
+    return mean;
+}
 
 #endif // LINEARYZATOR_H

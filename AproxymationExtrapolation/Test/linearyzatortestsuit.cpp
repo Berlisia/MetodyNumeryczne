@@ -14,7 +14,7 @@ const QVector<double> vectorOfLnY{2.000127734960111,
                                      6.000002990628037,
                                      8.000000675272045};
 
-std::pair<float,float> linearyzationFactors(1.0000414848327637, //a
+std::pair<double,double> linearyzationFactors(1.0000414848327637, //a
                                             2.0); //b=a1
 }
 
@@ -37,7 +37,7 @@ public:
 
 TEST_F(LinearyzatorTestSuit, shouldReturnFactorsOfLinearyzation)
 {
-    std::pair<float,float> l_factors = m_sut.calculateFactors();
+    std::pair<double,double> l_factors = m_sut.calculateFactors();
     ASSERT_EQ(l_factors.first, linearyzationFactors.first);
     ASSERT_EQ(l_factors.second, linearyzationFactors.second);
 }
