@@ -30,7 +30,8 @@ SOURCES += main.cpp\
 #    Test/Clalculatortestsuit.cpp \
     Src/Accuracy.cpp \
     Src/qcustomplot.cpp \
-    Src/Controler.cpp
+    Src/Controler.cpp \
+    Src/FileParser.cpp
 
 HEADERS  += App/mainwindow.h \
     Src/Calculator.h \
@@ -44,7 +45,8 @@ HEADERS  += App/mainwindow.h \
 #    Test/databasemock.h \
     Src/Accuracy.h \
     Src/qcustomplot.h \
-    Src/Controler.h
+    Src/Controler.h \
+    Src/FileParser.h
 
 FORMS    += mainwindow.ui
 

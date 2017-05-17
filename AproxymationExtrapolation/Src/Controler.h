@@ -5,6 +5,7 @@
 #include "DataBase.h"
 #include "Calculator.h"
 #include "App/mainwindow.h"
+#include "FileParser.h"
 
 class Controler : public QObject
 {
@@ -31,6 +32,7 @@ private:
     DataBase& m_dataBase;
     Calculator m_calculator;
     MainWindow* m_mainWindow;
+    FileParser m_fileParser;
 };
 
 #endif // CONTROLER_H

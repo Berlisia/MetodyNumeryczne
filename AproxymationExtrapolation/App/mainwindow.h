@@ -21,13 +21,15 @@ public:
 
     void setResult(const QVector<double> &p_x, const QVector<double> &p_y);
     void setInputPoints(const QVector<double> &p_x, const QVector<double> &p_y);
-    void showFileError();
     void showFileOk();
     void showFactors(std::pair<double, double> p_factors);
 
 signals:
     void applyNewFile();
     void calculatePressed();
+
+public slots:
+    void showFileError();
 
 private slots:
     void horzScrollBarChanged(int value);
