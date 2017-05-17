@@ -4,10 +4,7 @@ x = [1 2 3 4];
 n = length(y);
 logy = log(y); %z = ln(y)
 
-wsp0 = 0;
-wsp1 = 0;
-
-z(x) = wsp0 + wsp1*x; %f(x) = z
+%z(x) = wsp0 + wsp1*x; %f(x) = z
 
 %f1(x)=(x-x1)/(x0-x1)*f(x0) + (x-x0)/(x1-x0)*f(x1);
 iloczynXZ = x .* logy;
@@ -23,14 +20,14 @@ wspB = wsp1;
 f(x) = wspA * exp(wspB*x);
 
 %Dok³adnoœæ regresji
+logf = log(f); %przjescie na skale logarytmiczna
+sredniaY = mean(logf);
 
-sredniaY = mean(y);
-
-roznicay = y - sredniaY;
+roznicay = logf - sredniaY;
 roznicay2 = roznicay.^2;
 St = sum(roznicay2);
 Sy = (St/(n-1))^(1/2);
-roznicaDlaSr = y - wsp0 - wsp1 .* x;
+roznicaDlaSr = logf - wsp0 - wsp1 .* x;
 Sr = sum((roznicaDlaSr).^2);
 Syx = (Sr/(n-2))^(1/2);
 
