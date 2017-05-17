@@ -15,10 +15,6 @@ const QVector<double> vectorOfLnY{2.000127734960111,
 class LnFromValuesTestSuit : public testing::Test
 {
 public:
-    LnFromValuesTestSuit() : sut(vectorOfValueY)
-    {
-    }
-
     LnFromValues sut;
 };
 

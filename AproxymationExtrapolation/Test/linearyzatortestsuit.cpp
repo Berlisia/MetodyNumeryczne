@@ -14,8 +14,8 @@ const QVector<double> vectorOfLnY{2.000127734960111,
                                      6.000002990628037,
                                      8.000000675272045};
 
-std::pair<double,double> linearyzationFactors(1.0000414848327637, //a
-                                            2.0); //b=a1
+std::pair<double,double> linearyzationFactors(1.0001443491168518, //a
+                                              1.9999587928812972); //b=a1
 }
 
 class LinearyzatorTestSuit : public testing::Test

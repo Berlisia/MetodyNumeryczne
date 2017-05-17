@@ -3,9 +3,11 @@
 #include "DataBase.h"
 #include "Linearyzator.h"
 
-Calculator::Calculator(const DataBase& p_dataBase) : m_dataBase(p_dataBase)
+Calculator::Calculator(const DataBase& p_dataBase) :
+    m_dataBase(p_dataBase),
+    m_accuracy(p_dataBase.getVectorOfSevered(), p_dataBase.getVectorOfOrdinates())
 {
-    m_lnFromSevered = std::make_unique<LnFromValues>(p_dataBase.getVectorOfSevered());
+    m_lnFromSevered = std::make_unique<LnFromValues>();
     m_linearyzator = std::make_unique<Linearyzator>(p_dataBase.getVectorOfOrdinates(),
                                                     *m_lnFromSevered.get());
 }

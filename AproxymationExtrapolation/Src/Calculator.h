@@ -5,6 +5,7 @@
 #include <QVector>
 #include "ILnFromValues.h"
 #include "ILinearyzator.h"
+#include "Accuracy.h"
 
 class DataBase;
 
@@ -18,6 +19,7 @@ public:
     const QVector<double> getVectorOfResultX();
 private:
     void calculateResults(std::pair<double, double> p_factors);
+    void calculateAccuracy();
 
     const DataBase& m_dataBase;
     std::unique_ptr<ILnFromValues> m_lnFromSevered;
@@ -25,6 +27,7 @@ private:
 
     QVector<double> m_vectorOfResultY;
     QVector<double> m_vectorOfResultX;
+    Accuracy m_accuracy;
 };
 
 #endif // CALCULATOR_H
