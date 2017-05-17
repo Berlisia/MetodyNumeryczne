@@ -5,16 +5,18 @@
 #include <QObject>
 
 class DataBase;
+class QFile;
 
 class FileParser : public QObject
 {
      Q_OBJECT
 public:
-    bool loadFileTo(DataBase & p_dataBase);
+    bool loadFileTo(DataBase& p_dataBase);
 
 signals:
     void fileError();
-    void fileDone();
+private:
+    void applyData(QFile *p_file, DataBase& p_dataBase);
 };
 
 #endif // FILEPARSER_H

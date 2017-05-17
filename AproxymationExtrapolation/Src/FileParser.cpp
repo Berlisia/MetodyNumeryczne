@@ -1,31 +1,30 @@
 #include "FileParser.h"
 #include "DataBase.h"
-#include <fstream>
+#include <QFile>
+#include <QString>
+#include <QTextStream>
 
 bool FileParser::loadFileTo(DataBase & p_dataBase)
 {
-    bool l_done = false;
-    std::fstream l_file;
-    l_file.open(p_dataBase.getFileName(), std::ios::in);
-    if(l_file.good())
-    {
-        std::string l_valueXBuff{""};
-        std::string l_valueYBuff{""};
-        while(!l_file.eof())
-        {
-            getline(l_file, l_valueXBuff,';');
-            getline(l_file, l_valueYBuff);
-            const double l_valueX = stof(l_valueXBuff);
-            const double l_valueY = stof(l_valueYBuff);
-            p_dataBase.setDataOfOrdinates(l_valueX);
-            p_dataBase.setDataOfSevered(l_valueY);
-        }
-        l_file.close();
-        l_done = true;
-    }
-    else
+    QFile l_file(p_dataBase.getFileName());
+    if(!l_file.open(QFile::ReadOnly | QFile::Text))
     {
         emit fileError();
+        return false;
     }
-    return l_done;
+    applyData(&l_file, p_dataBase);
+    return true;
+}
+
+void FileParser::applyData(QFile* p_file, DataBase& p_dataBase)
+{
+    QTextStream in(p_file);
+    while(!in.atEnd())
+    {
+        QString line = in.readLine();
+        QStringList list = line.split(";");
+        p_dataBase.setDataOfOrdinates(list[0].toDouble());
+        p_dataBase.setDataOfSevered(list[1].toDouble());
+    }
+    p_file->close();
 }

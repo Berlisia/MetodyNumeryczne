@@ -10,7 +10,7 @@ void DataBase::setDataOfSevered(const double p_Y)
     m_vectorOfSevered.append(p_Y);
 }
 
-void DataBase::setDataFileName(std::string p_name)
+void DataBase::setDataFileName(QString p_name)
 {
     m_dataFileName = p_name;
 }
@@ -25,7 +25,7 @@ const QVector<double>& DataBase::getVectorOfSevered() const
     return m_vectorOfSevered;
 }
 
-std::string DataBase::getFileName()
+QString DataBase::getFileName()
 {
     return m_dataFileName;
 }

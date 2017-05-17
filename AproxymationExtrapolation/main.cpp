@@ -12,10 +12,10 @@ void generejdKupe()
     if(l_file.good())
     {
         int i = 0;
-        while(i != 100000)
+        while(i < 10000)
         {
-            l_file << (double)i/100 << ";" << (0.2545 * std::exp(0.1723*i/100)) << std::endl;
-            i++;
+            l_file << (double)i/100 << ";" << (0.5667 * std::exp(0.7777*i/100)) << std::endl;
+            i = i + 1;
         }
         l_file.close();
     }
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 //    return 0;
 
     QApplication app(argc, argv);
-    //generejdKupe();
+    generejdKupe();
     DataBase m_dataBase;
     MainWindow m_mainWindow(m_dataBase);
     Controler controler(m_dataBase, &m_mainWindow);

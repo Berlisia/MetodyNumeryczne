@@ -107,7 +107,7 @@ void MainWindow::yAxisChanged(QCPRange range)
 
 void MainWindow::loadFile()
 {
-    m_dataBase.setDataFileName(QFileDialog::getOpenFileName().toStdString());
+    m_dataBase.setDataFileName(QFileDialog::getOpenFileName());
     emit applyNewFile();
 }
 
