@@ -2,7 +2,7 @@
 #include "Src/Linearyzator.h"
 #include "llnfromvalues.h"
 
-using ::testing::ReturnRef;
+using ::testing::Return;
 
 namespace
 {
@@ -28,7 +28,7 @@ public:
     void SetUp()
     {
         EXPECT_CALL(m_lnValuesMock, getVectorOfSevered())
-                .WillRepeatedly(ReturnRef(vectorOfLnY));
+                .WillRepeatedly(Return(vectorOfLnY));
     }
 
     LnFromValuesMock m_lnValuesMock;

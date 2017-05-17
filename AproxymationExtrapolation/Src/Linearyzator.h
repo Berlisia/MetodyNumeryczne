@@ -2,7 +2,7 @@
 #define LINEARYZATOR_H
 
 #include "ILinearyzator.h"
-#include <qvector>
+#include <QVector>
 
 class ILnFromValues;
 

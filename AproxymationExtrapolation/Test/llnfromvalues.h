@@ -7,6 +7,7 @@ class LnFromValuesMock : public ILnFromValues
 {
 public:
     MOCK_CONST_METHOD0(getVectorOfSevered, const QVector<double>());
+    MOCK_METHOD1(calculateLn, void(const QVector<double> &p_vectorOfValues));
 };
 
 #endif // LLNFROMVALUES_H

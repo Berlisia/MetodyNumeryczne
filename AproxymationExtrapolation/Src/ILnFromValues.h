@@ -1,6 +1,6 @@
 #ifndef ILNFROMVALUES_H
 #define ILNFROMVALUES_H
-#include <qvector>
+#include <QVector>
 
 class ILnFromValues
 {
