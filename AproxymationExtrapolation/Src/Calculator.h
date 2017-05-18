@@ -17,6 +17,7 @@ public:
     std::pair<double, double> calculate();
     const QVector<double> getVectorOfResultY();
     const QVector<double> getVectorOfResultX();
+    std::map<Factor, double> getResultOfFactors();
 private:
     void calculateResults(std::pair<double, double> p_factors);
     void calculateAccuracy();

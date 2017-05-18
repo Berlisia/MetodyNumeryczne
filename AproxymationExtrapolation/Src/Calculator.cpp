@@ -17,6 +17,7 @@ std::pair<double, double> Calculator::calculate()
     m_lnFromSevered->calculateLn(m_dataBase.getVectorOfSevered());
     std::pair<double, double> factors = m_linearyzator->calculateFactors();
     calculateResults(factors);
+    m_accuracy.calculateAccuracyOfLinearRegresion(factors);
     return factors;
 }
 
@@ -28,6 +29,11 @@ const QVector<double> Calculator::getVectorOfResultY()
 const QVector<double> Calculator::getVectorOfResultX()
 {
     return m_vectorOfResultX;
+}
+
+std::map<Factor, double> Calculator::getResultOfFactors()
+{
+    return m_accuracy.getFactorMap();
 }
 
 void Calculator::calculateResults(std::pair<double, double> p_factors)
