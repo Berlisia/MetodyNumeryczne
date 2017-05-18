@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     Src/Accuracy.cpp \
     Src/qcustomplot.cpp \
     Src/Controler.cpp \
-    Src/FileParser.cpp
+    Src/FileParser.cpp \
+    Test/AccuracyTestSuit.cpp
 
 HEADERS  += App/mainwindow.h \
     Src/Calculator.h \
