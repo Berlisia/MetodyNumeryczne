@@ -22,10 +22,16 @@ public:
     void calculateAccuracyOfLinearRegresion(const std::pair<double, double> p_factors);
     std::map<Factor, double> getFactorMap();
 private:
-    double sumOfsquaresOfDeviations();
-    double standardDeviation(double p_sumOfsquaresOfDeviations, double p_sizeOfArray);
-    double standardErrorOfEstymation(const std::pair<double, double> p_factors, signed p_sizeOfArray);
-    double standardDeviationForRegresionLine(double p_standardErrorOfEstymation, double p_sizeOfArray);
+    void calculateAccuracyFactors(const std::pair<double, double> p_factors, const double p_sizeOfArray);
+    void sumOfsquaresOfDeviations();
+    void standardDeviation(const double p_sizeOfArray);
+    void standardErrorOfEstymation(const std::pair<double, double> p_factors, const signed p_sizeOfArray);
+    void standardDeviationForRegresionLine(const double p_sizeOfArray);
+    void correlatonCoefficient();
+    void coefficientOfdetermination();
+    QVector<double> averageSquaredError();
+    QVector<double> squaredErrorWithFactors(const std::pair<double, double> p_factors, const signed p_sizeOfArray);
+    double meanOfLnOfSevered();
 
     std::unique_ptr<ILnFromValues> m_lnFromSevered;
     const QVector<double>& m_vectorOfResultY;

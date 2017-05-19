@@ -13,15 +13,8 @@ Accuracy::Accuracy(const QVector<double>& p_vectorOfResultY, const QVector<doubl
 void Accuracy::calculateAccuracyOfLinearRegresion(const std::pair<double, double> p_factors)
 {
     m_lnFromSevered->calculateLn(m_vectorOfResultY);
-    signed l_numberOfElements = m_lnFromSevered->getVectorOfSevered().size();
-    double St = sumOfsquaresOfDeviations();
-    double Sy = standardDeviation(St, l_numberOfElements);
-    double Sr = standardErrorOfEstymation(p_factors, l_numberOfElements);
-    double Syx = standardDeviationForRegresionLine(Sr, l_numberOfElements);
-    double r2 = (St - Sr)/St;
-    m_factorMap[Factor::coefficientOfdetermination] = r2;
-    double r = std::sqrt(r2);
-    m_factorMap[Factor::correlationCoefficient] = r;
+    const signed l_numberOfElements = m_lnFromSevered->getVectorOfSevered().size();
+    calculateAccuracyFactors(p_factors, l_numberOfElements);
 }
 
 std::map<Factor, double> Accuracy::getFactorMap()
@@ -29,47 +22,81 @@ std::map<Factor, double> Accuracy::getFactorMap()
     return m_factorMap;
 }
 
-double Accuracy::standardDeviation(double p_sumOfsquaresOfDeviations, double p_sizeOfArray)
+void Accuracy::calculateAccuracyFactors(const std::pair<double, double> p_factors, const double p_sizeOfArray)
 {
-    double Sy = std::sqrt(p_sumOfsquaresOfDeviations/(p_sizeOfArray - 1));
-    m_factorMap[Factor::standardDeviation] = Sy;
-    return Sy;
+    sumOfsquaresOfDeviations();
+    standardDeviation(p_sizeOfArray);
+    standardErrorOfEstymation(p_factors, p_sizeOfArray);
+    standardDeviationForRegresionLine(p_sizeOfArray);
+    correlatonCoefficient();
+    coefficientOfdetermination();
 }
 
-double Accuracy::sumOfsquaresOfDeviations()
+void Accuracy::standardDeviation(const double p_sizeOfArray)
 {
-    const double meanOfLnSevered = mean(m_lnFromSevered->getVectorOfSevered().begin(), //y średnia
-                                        m_lnFromSevered->getVectorOfSevered().end());
+    double Sy = std::sqrt(m_factorMap[Factor::sumOfsquaresOfDeviations] / (p_sizeOfArray - 1));
+    m_factorMap[Factor::standardDeviation] = Sy;
+}
 
+void Accuracy::sumOfsquaresOfDeviations()
+{
+    QVector<double> differenceInSquareVector = averageSquaredError();
+    double St = sum(differenceInSquareVector.begin(), differenceInSquareVector.end());
+    m_factorMap[Factor::sumOfsquaresOfDeviations] = St;
+}
+
+void Accuracy::standardErrorOfEstymation(const std::pair<double, double> p_factors, const signed p_sizeOfArray)
+{
+    QVector<double> differenceInSquareVector = squaredErrorWithFactors(p_factors, p_sizeOfArray); // (yi - a0 - a1xi)^2
+    double Sr = sum(differenceInSquareVector.begin(), differenceInSquareVector.end());
+    m_factorMap[Factor::standardErrorOfEstymation] = Sr;
+}
+
+void Accuracy::standardDeviationForRegresionLine(const double p_sizeOfArray)
+{
+    double Syx = std::sqrt(m_factorMap[Factor::standardErrorOfEstymation] / (p_sizeOfArray - 2));
+    m_factorMap[Factor::standardDeviationForRegresionLine] = Syx;
+}
+
+void Accuracy::correlatonCoefficient()
+{
+    double r2 = (m_factorMap[Factor::sumOfsquaresOfDeviations] - m_factorMap[Factor::standardErrorOfEstymation])/
+                                       m_factorMap[Factor::sumOfsquaresOfDeviations];
+    m_factorMap[Factor::coefficientOfdetermination] = r2;
+}
+
+void Accuracy::coefficientOfdetermination()
+{
+    m_factorMap[Factor::correlationCoefficient] = std::sqrt(m_factorMap[Factor::coefficientOfdetermination]);
+}
+
+QVector<double> Accuracy::averageSquaredError()
+{
+    const double meanOfLnSevered = meanOfLnOfSevered();
     QVector<double> differenceInSquareVector; // (y - yśr)^2
     for(auto valueY : m_lnFromSevered->getVectorOfSevered())
     {
         differenceInSquareVector.append((std::pow(valueY - meanOfLnSevered, 2.0)));
     }
-    double St = sum(differenceInSquareVector.begin(), differenceInSquareVector.end());
-    m_factorMap[Factor::sumOfsquaresOfDeviations] = St;
-    return St;
+    return differenceInSquareVector;
 }
 
-double Accuracy::standardErrorOfEstymation(const std::pair<double, double> p_factors, signed p_sizeOfArray)
+QVector<double> Accuracy::squaredErrorWithFactors(const std::pair<double, double> p_factors, const signed p_sizeOfArray)
 {
-    QVector<double> differenceInSquareVector; // (yi - a0 - a1xi)^2
+    QVector<double> differenceInSquareVector;
     for(signed i = 0; i < p_sizeOfArray; i++)
     {
         double value = m_lnFromSevered->getVectorOfSevered()[i] - std::log(p_factors.first) - (p_factors.second * m_vectorOfResultX[i]);
         differenceInSquareVector.append(std::pow(value, 2.0));
     }
-
-    double Sr = sum(differenceInSquareVector.begin(), differenceInSquareVector.end());
-    m_factorMap[Factor::standardErrorOfEstymation] = Sr;
-    return Sr;
+    return differenceInSquareVector;
 }
 
-double Accuracy::standardDeviationForRegresionLine(double p_standardErrorOfEstymation, double p_sizeOfArray)
+double Accuracy::meanOfLnOfSevered()
 {
-    double Syx = std::sqrt(p_standardErrorOfEstymation/(p_sizeOfArray - 2));
-    m_factorMap[Factor::standardDeviationForRegresionLine] = Syx;
-    return Syx;
+    const double meanOfLnSevered = mean(m_lnFromSevered->getVectorOfSevered().begin(), //y średnia
+                                        m_lnFromSevered->getVectorOfSevered().end());
+    return meanOfLnSevered;
 }
 
 
