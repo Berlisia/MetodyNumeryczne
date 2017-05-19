@@ -1,16 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "Src/DataBase.h"
+
 #include <QFileDialog>
 #include <QString>
 #include <cmath>
 #include <memory>
 
 
-MainWindow::MainWindow(DataBase& p_dataBase, QWidget *parent) :
-    QMainWindow(parent),
-    m_dataBase(p_dataBase),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow(DataBase& p_dataBase, QWidget* parent)
+    : QMainWindow(parent)
+    , m_dataBase(p_dataBase)
+    , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     setupMenu();
@@ -47,15 +48,15 @@ void MainWindow::setInputPoints(const QVector<double>& p_x, const QVector<double
     ui->customPlot->graph()->setPen(QPen(Qt::red));
     ui->customPlot->graph()->setData(p_x, p_y);
     ui->customPlot->axisRect()->setupFullAxesBox(true);
-    ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);//cos ze skalaS
+    ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom); // cos ze skalaS
     ui->customPlot->replot();
 }
 
 void MainWindow::showFileError()
 {
     m_messageBox = std::make_unique<QMessageBox>();
-    m_messageBox->critical(0,"Error","I can't open file!");
-    m_messageBox->setFixedSize(500,200);
+    m_messageBox->critical(0, "Error", "I can't open file!");
+    m_messageBox->setFixedSize(500, 200);
     m_messageBox->show();
 }
 
@@ -75,34 +76,46 @@ void MainWindow::showFactors(std::pair<double, double> p_factors)
     m_messageBox->show();
 }
 
+void MainWindow::showAccuracyFactors(std::map<Factor, double> p_factors)
+{
+    m_messageBox = std::make_unique<QMessageBox>();
+    m_messageBox->setText("sumOfsquaresOfDeviations St = " + QString::number(p_factors[Factor::sumOfsquaresOfDeviations]) + "\n" +
+                          "standardDeviation Sy = " + QString::number(p_factors[Factor::standardDeviation]) + "\n" +
+                          "standardErrorOfEstymation Sr = " + QString::number(p_factors[Factor::standardErrorOfEstymation]) + "\n" +
+                          "standardDeviationForRegresionLine Sy/x = " + QString::number(p_factors[Factor::standardDeviationForRegresionLine]) + "\n" +
+                          "correlationCoefficient r = " + QString::number(p_factors[Factor::correlationCoefficient]));
+    m_messageBox->addButton("OK",QMessageBox::AcceptRole);
+    m_messageBox->show();
+}
+
 void MainWindow::horzScrollBarChanged(int value)
 {
-  if (qAbs(ui->customPlot->xAxis->range().center()-value/100.0) > 0.01)
-  {
-    ui->customPlot->xAxis->setRange(value/100.0, ui->customPlot->xAxis->range().size(), Qt::AlignCenter);
-    ui->customPlot->replot();
-  }
+    if (qAbs(ui->customPlot->xAxis->range().center() - value / 100.0) > 0.01)
+    {
+        ui->customPlot->xAxis->setRange(value / 100.0, ui->customPlot->xAxis->range().size(), Qt::AlignCenter);
+        ui->customPlot->replot();
+    }
 }
 
 void MainWindow::vertScrollBarChanged(int value)
 {
-  if (qAbs(ui->customPlot->yAxis->range().center()+value/100.0) > 0.01)
-  {
-    ui->customPlot->yAxis->setRange(-value/100.0, ui->customPlot->yAxis->range().size(), Qt::AlignCenter);
-    ui->customPlot->replot();
-  }
+    if (qAbs(ui->customPlot->yAxis->range().center() + value / 100.0) > 0.01)
+    {
+        ui->customPlot->yAxis->setRange(-value / 100.0, ui->customPlot->yAxis->range().size(), Qt::AlignCenter);
+        ui->customPlot->replot();
+    }
 }
 
 void MainWindow::xAxisChanged(QCPRange range)
 {
-  ui->horizontalScrollBar->setValue(qRound(range.center()*100.0));
-  ui->horizontalScrollBar->setPageStep(qRound(range.size()*100.0));
+    ui->horizontalScrollBar->setValue(qRound(range.center() * 100.0));
+    ui->horizontalScrollBar->setPageStep(qRound(range.size() * 100.0));
 }
 
 void MainWindow::yAxisChanged(QCPRange range)
 {
-  ui->verticalScrollBar->setValue(qRound(-range.center()*100.0));
-  ui->verticalScrollBar->setPageStep(qRound(range.size()*100.0));
+    ui->verticalScrollBar->setValue(qRound(-range.center() * 100.0));
+    ui->verticalScrollBar->setPageStep(qRound(range.size() * 100.0));
 }
 
 void MainWindow::loadFile()
@@ -113,7 +126,7 @@ void MainWindow::loadFile()
 
 void MainWindow::setupMenu()
 {
-    QMenu * mainMenu = new QMenu(tr("&Menu"), this);
+    QMenu* mainMenu = new QMenu(tr("&Menu"), this);
     QMainWindow::menuBar()->addMenu(mainMenu);
     mainMenu->addAction(tr("&Open"), this, SLOT(loadFile()));
     mainMenu->addAction(tr("&Calculate"), this, SIGNAL(calculatePressed()));
@@ -137,5 +150,3 @@ void MainWindow::updateAxis()
     possition2 = m_dataBase.getVectorOfSevered().back();
     ui->customPlot->yAxis->setRange(possition1, possition2);
 }
-
-

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "Src/qcustomplot.h"
+#include "Src/Accuracy.h"
 #include <memory>
 #include <utility>
 
@@ -23,6 +24,7 @@ public:
     void setInputPoints(const QVector<double> &p_x, const QVector<double> &p_y);
     void showFileOk();
     void showFactors(std::pair<double, double> p_factors);
+    void showAccuracyFactors(std::map<Factor, double> p_factors);
 
 signals:
     void applyNewFile();

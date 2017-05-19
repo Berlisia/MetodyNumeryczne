@@ -14,6 +14,7 @@ void Controler::makeCalculation()
     std::pair<double, double> l_factors = m_calculator.calculate();
     m_mainWindow->showFactors(l_factors);
     m_mainWindow->setResult(m_calculator.getVectorOfResultX(), m_calculator.getVectorOfResultY());
+    m_mainWindow->showAccuracyFactors(m_calculator.getResultOfFactors());
 }
 
 void Controler::setConnections()
