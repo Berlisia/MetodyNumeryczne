@@ -14,10 +14,7 @@ namespace
 class AccuracyTestSuit : public testing::Test
 {
 public:
-    AccuracyTestSuit() : m_sut(vectorOfResultY, vectorOfResultX)
-    {
-    }
-
+    AccuracyTestSuit() : m_sut(vectorOfResultY, vectorOfResultX) {}
     void SetUp()
     {
         setUpDefaultFactorMap();
@@ -28,10 +25,10 @@ public:
     {
         defaultFactorMap[Factor::sumOfsquaresOfDeviations] = 19.999175866116104;
         defaultFactorMap[Factor::standardDeviation] = 2.5819356993101192;
-        defaultFactorMap[Factor::standardErrorOfEstymation] = 4.000000083338658;
-        defaultFactorMap[Factor::standardDeviationForRegresionLine] = 1.4142135771054274;
-        defaultFactorMap[Factor::coefficientOfdetermination] = 0.7999917541544441;
-        defaultFactorMap[Factor::correlationCoefficient] = 0.894422581420239;
+        defaultFactorMap[Factor::standardErrorOfEstymation] = 2.4158865222393487e-30;
+        defaultFactorMap[Factor::standardDeviationForRegresionLine] = 1.0990647210786425e-15;
+        defaultFactorMap[Factor::coefficientOfdetermination] = 1.0;
+        defaultFactorMap[Factor::correlationCoefficient] = 1.0;
     }
 };
 

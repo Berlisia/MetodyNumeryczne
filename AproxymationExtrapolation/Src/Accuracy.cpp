@@ -56,8 +56,8 @@ double Accuracy::standardErrorOfEstymation(const std::pair<double, double> p_fac
     QVector<double> differenceInSquareVector; // (yi - a0 - a1xi)^2
     for(signed i = 0; i < p_sizeOfArray; i++)
     {
-        double dupa = m_lnFromSevered->getVectorOfSevered()[i] - p_factors.first - (p_factors.second * m_vectorOfResultX[i]);
-        differenceInSquareVector.append(std::pow(dupa, 2.0));
+        double value = m_lnFromSevered->getVectorOfSevered()[i] - std::log(p_factors.first) - (p_factors.second * m_vectorOfResultX[i]);
+        differenceInSquareVector.append(std::pow(value, 2.0));
     }
 
     double Sr = sum(differenceInSquareVector.begin(), differenceInSquareVector.end());

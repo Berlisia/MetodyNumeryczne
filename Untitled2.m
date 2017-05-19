@@ -19,7 +19,7 @@ wspA = exp(wsp0);
 wspB = wsp1;
 f(x) = wspA * exp(wspB*x);
 
-%Dok³adnoœæ regresji
+%Dokï¿½adnoï¿½ï¿½ regresji
 logf = log(f); %przjescie na skale logarytmiczna
 sredniaY = mean(logf);
 
@@ -27,11 +27,11 @@ roznicay = logf - sredniaY;
 roznicay2 = roznicay.^2;
 St = sum(roznicay2);
 Sy = (St/(n-1))^(1/2);
-roznicaDlaSr = logf - wsp0 - wsp1 .* x;
+roznicaDlaSr = logf - wsp0 - wspB .* x;
 Sr = sum((roznicaDlaSr).^2);
 Syx = (Sr/(n-2))^(1/2);
 
-%wspó³czynnik korelacji
+%wspï¿½ï¿½czynnik korelacji
 r = abs(((St - Sr)/St)^(1/2));
 
 

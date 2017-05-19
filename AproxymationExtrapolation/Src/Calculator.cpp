@@ -2,6 +2,7 @@
 #include "Lnfromvalues.h"
 #include "DataBase.h"
 #include "Linearyzator.h"
+#include <cmath>
 
 Calculator::Calculator(const DataBase& p_dataBase) :
     m_dataBase(p_dataBase),
@@ -43,7 +44,7 @@ void Calculator::calculateResults(std::pair<double, double> p_factors)
     for(; i < m_dataBase.getVectorOfOrdinates()[size - 1]; i = i + 0.002)
     {
         m_vectorOfResultX.append(i);
-        m_vectorOfResultY.append(p_factors.first * exp(p_factors.second * i));
+        m_vectorOfResultY.append(p_factors.first * std::exp(p_factors.second * i));
     }
 
 }

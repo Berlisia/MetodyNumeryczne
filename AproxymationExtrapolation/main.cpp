@@ -1,9 +1,10 @@
 #include <QApplication>
 #include "App/mainwindow.h"
 #include "Src/Controler.h"
-//#include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include <fstream>
 #include <cmath>
+#include <iostream>
 
 void generejdKupe()
 {
@@ -18,6 +19,10 @@ void generejdKupe()
             i = i + 1;
         }
         l_file.close();
+    }
+    else
+    {
+        std::cout << "DUUPA FaLE" << std::endl;
     }
 }
 
