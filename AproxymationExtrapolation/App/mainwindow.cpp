@@ -4,25 +4,22 @@
 
 #include <QFileDialog>
 #include <QString>
+#include <QMessageBox>
+#include <QStandardItemModel>
 #include <cmath>
 #include <memory>
 
 
-MainWindow::MainWindow(DataBase& p_dataBase, QWidget* parent)
-    : QMainWindow(parent)
-    , m_dataBase(p_dataBase)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(DataBase& p_dataBase, QWidget* parent):
+    QMainWindow(parent),
+    m_dataBase(p_dataBase),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     setupMenu();
-    setupConnectionForZoom();
 
-    ui->horizontalScrollBar->setRange(-500, 500);
-    ui->verticalScrollBar->setRange(0, 500);
-
-    // initialize axis range (and scroll bar positions via signals we just connected):
-    ui->customPlot->xAxis->setRange(0, 10, Qt::AlignCenter);
-    ui->customPlot->yAxis->setRange(0, 500, Qt::AlignCenter);
+    connect(ui->openButton, SIGNAL(pressed()), this, SLOT(loadFile()));
+    connect(ui->calculateButton, SIGNAL(pressed()), this, SIGNAL(calculatePressed()));
 }
 
 MainWindow::~MainWindow()
@@ -32,24 +29,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::setResult(const QVector<double>& p_x, const QVector<double>& p_y)
 {
-    updateAxis();
-    ui->customPlot->addGraph();
-    ui->customPlot->graph()->setPen(QPen(Qt::blue));
-    ui->customPlot->graph()->setBrush(QBrush(QColor(0, 0, 255, 20)));
-    ui->customPlot->graph()->setData(p_x, p_y);
-    ui->customPlot->axisRect()->setupFullAxesBox(true);
-    ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-    ui->customPlot->replot();
+    m_chartViewer->setResult(p_x,p_y);
 }
 
 void MainWindow::setInputPoints(const QVector<double>& p_x, const QVector<double>& p_y)
 {
-    ui->customPlot->addGraph();
-    ui->customPlot->graph()->setPen(QPen(Qt::red));
-    ui->customPlot->graph()->setData(p_x, p_y);
-    ui->customPlot->axisRect()->setupFullAxesBox(true);
-    ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom); // cos ze skalaS
-    ui->customPlot->replot();
+    m_chartViewer.reset();
+    m_chartViewer = std::make_unique<ChartViewer>(this);
+    m_chartViewer->setInputPoints(p_x, p_y);
+    m_chartViewer->show();
 }
 
 void MainWindow::showFileError()
@@ -78,44 +66,31 @@ void MainWindow::showFactors(std::pair<double, double> p_factors)
 
 void MainWindow::showAccuracyFactors(std::map<Factor, double> p_factors)
 {
-    m_messageBox = std::make_unique<QMessageBox>();
-    m_messageBox->setText("sumOfsquaresOfDeviations St = " + QString::number(p_factors[Factor::sumOfsquaresOfDeviations]) + "\n" +
-                          "standardDeviation Sy = " + QString::number(p_factors[Factor::standardDeviation]) + "\n" +
-                          "standardErrorOfEstymation Sr = " + QString::number(p_factors[Factor::standardErrorOfEstymation]) + "\n" +
-                          "standardDeviationForRegresionLine Sy/x = " + QString::number(p_factors[Factor::standardDeviationForRegresionLine]) + "\n" +
-                          "correlationCoefficient r = " + QString::number(p_factors[Factor::correlationCoefficient]));
-    m_messageBox->addButton("OK",QMessageBox::AcceptRole);
-    m_messageBox->show();
-}
+    std::unique_ptr<QStandardItemModel> model = std::make_unique<QStandardItemModel>(4, 2, this);
+    const QStringList headerList = {"Błąd standardowy estymacji", "Odchylenie standardowe",
+                              "Współczynnik determinacji", "Współczynnik korelacji"};
+    model->setVerticalHeaderLabels(headerList);
+    model->setHeaderData(0, Qt::Vertical, QObject::tr("Błąd standardowy estymacji"));
 
-void MainWindow::horzScrollBarChanged(int value)
-{
-    if (qAbs(ui->customPlot->xAxis->range().center() - value / 100.0) > 0.01)
-    {
-        ui->customPlot->xAxis->setRange(value / 100.0, ui->customPlot->xAxis->range().size(), Qt::AlignCenter);
-        ui->customPlot->replot();
-    }
-}
+    std::unique_ptr<QStandardItem> Sr = std::make_unique<QStandardItem>(QString::number(p_factors[Factor::standardErrorOfEstymation]));
+    std::unique_ptr<QStandardItem> Syx = std::make_unique<QStandardItem>(QString::number(p_factors[Factor::standardDeviationForRegresionLine]));
+    std::unique_ptr<QStandardItem> r2 = std::make_unique<QStandardItem>(QString::number(p_factors[Factor::coefficientOfdetermination]));
+    std::unique_ptr<QStandardItem> r = std::make_unique<QStandardItem>(QString::number(p_factors[Factor::correlationCoefficient]));
+    model->setItem(0,0,Sr.get());
+    model->setItem(1,0,Syx.get());
+    model->setItem(2,0,r2.get());
+    model->setItem(3,0,r.get());
 
-void MainWindow::vertScrollBarChanged(int value)
-{
-    if (qAbs(ui->customPlot->yAxis->range().center() + value / 100.0) > 0.01)
-    {
-        ui->customPlot->yAxis->setRange(-value / 100.0, ui->customPlot->yAxis->range().size(), Qt::AlignCenter);
-        ui->customPlot->replot();
-    }
-}
+    ui->accuracyView->setModel(model.get());
 
-void MainWindow::xAxisChanged(QCPRange range)
-{
-    ui->horizontalScrollBar->setValue(qRound(range.center() * 100.0));
-    ui->horizontalScrollBar->setPageStep(qRound(range.size() * 100.0));
-}
-
-void MainWindow::yAxisChanged(QCPRange range)
-{
-    ui->verticalScrollBar->setValue(qRound(-range.center() * 100.0));
-    ui->verticalScrollBar->setPageStep(qRound(range.size() * 100.0));
+//    m_messageBox = std::make_unique<QMessageBox>();
+//    m_messageBox->setText("sumOfsquaresOfDeviations St = " + QString::number(p_factors[Factor::sumOfsquaresOfDeviations]) + "\n" +
+//                          "standardDeviation Sy = " + QString::number(p_factors[Factor::standardDeviation]) + "\n" +
+//                          "standardErrorOfEstymation Sr = " + QString::number(p_factors[Factor::standardErrorOfEstymation]) + "\n" +
+//                          "standardDeviationForRegresionLine Sy/x = " + QString::number(p_factors[Factor::standardDeviationForRegresionLine]) + "\n" +
+//                          "correlationCoefficient r = " + QString::number(p_factors[Factor::correlationCoefficient]));
+//    m_messageBox->addButton("OK",QMessageBox::AcceptRole);
+//    m_messageBox->show();
 }
 
 void MainWindow::loadFile()
@@ -131,22 +106,4 @@ void MainWindow::setupMenu()
     mainMenu->addAction(tr("&Open"), this, SLOT(loadFile()));
     mainMenu->addAction(tr("&Calculate"), this, SIGNAL(calculatePressed()));
     mainMenu->addAction(tr("&Quit"), this, SLOT(close()));
-}
-
-void MainWindow::setupConnectionForZoom()
-{
-    connect(ui->horizontalScrollBar, SIGNAL(valueChanged(int)), this, SLOT(horzScrollBarChanged(int)));
-    connect(ui->verticalScrollBar, SIGNAL(valueChanged(int)), this, SLOT(vertScrollBarChanged(int)));
-    connect(ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(xAxisChanged(QCPRange)));
-    connect(ui->customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(yAxisChanged(QCPRange)));
-}
-
-void MainWindow::updateAxis()
-{
-    double possition1 = m_dataBase.getVectorOfOrdinates()[0];
-    double possition2 = m_dataBase.getVectorOfOrdinates().back();
-    ui->customPlot->xAxis->setRange(possition1, possition2);
-    possition1 = m_dataBase.getVectorOfSevered()[0];
-    possition2 = m_dataBase.getVectorOfSevered().back();
-    ui->customPlot->yAxis->setRange(possition1, possition2);
 }

@@ -6,31 +6,138 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1028</width>
-    <height>719</height>
+    <width>355</width>
+    <height>562</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Aproksymacja</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:rgb(43, 49, 71)</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true">color:rgb(116, 154, 191)</string>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1">
-     <widget class="QScrollBar" name="verticalScrollBar">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
+    <item row="3" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QTextBrowser" name="resultViewer">
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>22</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color:rgb(67, 67, 67);
+border-color:rgb(43, 49, 71)</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>18</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Funkcja</string>
       </property>
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QScrollBar" name="horizontalScrollBar">
+     <widget class="Line" name="line">
+      <property name="styleSheet">
+       <string notr="true">background-color::rgb(116, 154, 191)</string>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
      </widget>
     </item>
     <item row="0" column="0">
-     <widget class="QCustomPlot" name="customPlot" native="true"/>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QPushButton" name="openButton">
+        <property name="font">
+         <font>
+          <pointsize>-1</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:qlineargradient(spread:repeat, x1:0.523, y1:1, x2:0.518192, y2:0, stop:0.495192 rgba(51, 161, 199, 177), stop:1 rgba(53, 63, 149, 255));
+    font: bold 14px;
+    min-width: 6em;
+    padding: 6px;
+border-radius: 10px;
+font-color:rgb(255, 255, 255)</string>
+        </property>
+        <property name="text">
+         <string>Otwórz</string>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QPushButton" name="calculateButton">
+        <property name="font">
+         <font>
+          <pointsize>-1</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:qlineargradient(spread:repeat, x1:0.523, y1:1, x2:0.518192, y2:0, stop:0.495192 rgba(51, 161, 199, 177), stop:1 rgba(53, 63, 149, 255));
+    font: bold 14px;
+    min-width: 6em;
+    padding: 6px;
+border-radius: 10px;</string>
+        </property>
+        <property name="text">
+         <string>Oblicz</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="5" column="0" colspan="2">
+     <widget class="Line" name="line_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>18</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Dokładność</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QTableView" name="accuracyView">
+      <property name="styleSheet">
+       <string notr="true">background-color:rgb(43, 49, 71);
+border-color:rgb(43, 49, 71)</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -39,8 +146,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1028</width>
-     <height>25</height>
+     <width>355</width>
+     <height>20</height>
     </rect>
    </property>
   </widget>
@@ -56,14 +163,6 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>QCustomPlot</class>
-   <extends>QWidget</extends>
-   <header>Src/qcustomplot.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

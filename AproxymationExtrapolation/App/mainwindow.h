@@ -2,15 +2,18 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "Src/qcustomplot.h"
 #include "Src/Accuracy.h"
+#include "ChartViewer.h"
+
 #include <memory>
 #include <utility>
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 class DataBase;
+class QMessageBox;
 
 class MainWindow : public QMainWindow
 {
@@ -34,20 +37,15 @@ public slots:
     void showFileError();
 
 private slots:
-    void horzScrollBarChanged(int value);
-    void vertScrollBarChanged(int value);
-    void xAxisChanged(QCPRange range);
-    void yAxisChanged(QCPRange range);
     void loadFile();
 
 private:
     void setupMenu();
-    void setupConnectionForZoom();
-    void updateAxis();
 
     DataBase& m_dataBase;
     Ui::MainWindow *ui;
     std::unique_ptr<QMessageBox> m_messageBox;
+    std::unique_ptr<ChartViewer> m_chartViewer;
 };
 
 #endif // MAINWINDOW_H

@@ -1,7 +1,7 @@
 #include <QApplication>
 #include "App/mainwindow.h"
 #include "Src/Controler.h"
-#include <gtest/gtest.h>
+//#include <gtest/gtest.h>
 #include <fstream>
 #include <cmath>
 #include <iostream>
