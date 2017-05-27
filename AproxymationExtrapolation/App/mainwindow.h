@@ -28,11 +28,13 @@ public:
     void showFileOk();
     void showFactors(std::pair<double, double> p_factors);
     void showAccuracyFactors(std::map<Factor, double> p_factors);
+    void showValueYFromValueX(double p_valueY);
     void clear();
 
 signals:
     void applyNewFile();
     void calculatePressed();
+    void YValueTriggered(double);
 
 public slots:
     void showFileError();

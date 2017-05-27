@@ -13,8 +13,14 @@ void Controler::makeCalculation()
 {
     if(m_dataBase.checkHasData())
     {
-        showResultOfCalculation(claculate());
+        showResultOfCalculation(claculateFactors());
     }
+}
+
+void Controler::calculateValueY(double p_valueX)
+{
+    double valueY = m_calculator.calculateValueFromX(p_valueX);
+    m_mainWindow->showValueYFromValueX(valueY);
 }
 
 void Controler::setConnections()
@@ -22,6 +28,7 @@ void Controler::setConnections()
     connect(m_mainWindow, SIGNAL(applyNewFile()), this, SLOT(loadFile()));
     connect(m_mainWindow, SIGNAL(calculatePressed()), this, SLOT(makeCalculation()));
     connect(&m_fileParser, SIGNAL(fileError()), m_mainWindow, SLOT(showFileError()));
+    connect(m_mainWindow, SIGNAL(YValueTriggered(double)), this, SLOT(calculateValueY(double)));
 }
 
 void Controler::clearData()
@@ -44,7 +51,7 @@ void Controler::setPointsToChart()
     m_shouldClear = true;
 }
 
-std::pair<double, double> Controler::claculate()
+std::pair<double, double> Controler::claculateFactors()
 {
     std::pair<double, double> l_factors = m_calculator.calculate();
     return l_factors;

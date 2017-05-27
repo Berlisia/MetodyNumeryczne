@@ -2,5 +2,7 @@
     <qresource prefix="/pictures">
         <file>1495896868_ic_folder_open_48px.png</file>
         <file>1495897148_51.png</file>
+        <file>1495918086_line-chart_2.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

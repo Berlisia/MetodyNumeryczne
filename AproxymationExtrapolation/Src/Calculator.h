@@ -18,7 +18,7 @@ public:
     const QVector<double> getVectorOfResultY();
     const QVector<double> getVectorOfResultX();
     std::map<Factor, double> getResultOfFactors();
-    double calculateValueFromX();
+    double calculateValueFromX(double p_valueX);
     void reset();
 private:
     void calculateResults(std::pair<double, double> p_factors);

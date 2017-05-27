@@ -18,6 +18,7 @@ MainWindow::MainWindow(DataBase& p_dataBase, QWidget* parent):
     ui->setupUi(this);
     setupMenu();
     ui->valueGet->setDisabled(true);
+    setConnectionForValueGetter();
 }
 
 MainWindow::~MainWindow()
@@ -71,6 +72,11 @@ void MainWindow::showAccuracyFactors(std::map<Factor, double> p_factors)
     ui->correlationCoefficient->setText(QString::number(p_factors[Factor::correlationCoefficient]));
 }
 
+void MainWindow::showValueYFromValueX(double p_valueY)
+{
+    ui->valueDisplay->setText(QString::number(p_valueY));
+}
+
 void MainWindow::clear()
 {
     ui->factorA->clear();
@@ -82,8 +88,7 @@ void MainWindow::clear()
     ui->standardErrorOfEstymation->clear();
 
     ui->valueDisplay->clear();
-
-    //m_chartViewer->done(1);
+    ui->valueGet->setDisabled(true);
 }
 
 void MainWindow::loadFile()
@@ -100,5 +105,5 @@ void MainWindow::setupMenu()
 
 void MainWindow::setConnectionForValueGetter()
 {
-
+    connect(ui->valueGet, SIGNAL(valueChanged(double)), this, SIGNAL(YValueTriggered(double)));
 }

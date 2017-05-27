@@ -24,6 +24,7 @@ public:
 private slots:
     void loadFile();
     void makeCalculation();
+    void calculateValueY(double);
 
 private:
     void setConnections();
@@ -31,7 +32,7 @@ private:
     void clearData();
     void tryClear();
     void setPointsToChart();
-    std::pair<double, double> claculate();
+    std::pair<double, double> claculateFactors();
     void showResultOfCalculation(std::pair<double, double> p_factors);
 
     DataBase& m_dataBase;

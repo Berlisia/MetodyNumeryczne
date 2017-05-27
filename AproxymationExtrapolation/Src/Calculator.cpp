@@ -37,9 +37,9 @@ std::map<Factor, double> Calculator::getResultOfFactors()
     return m_accuracy.getFactorMap();
 }
 
-double Calculator::calculateValueFromX()
+double Calculator::calculateValueFromX(double p_valueX)
 {
-    return m_factors.first * std::exp(m_factors.second);
+    return m_factors.first * std::exp(p_valueX * m_factors.second);
 }
 
 void Calculator::reset()
