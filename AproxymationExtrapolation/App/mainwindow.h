@@ -28,6 +28,7 @@ public:
     void showFileOk();
     void showFactors(std::pair<double, double> p_factors);
     void showAccuracyFactors(std::map<Factor, double> p_factors);
+    void clear();
 
 signals:
     void applyNewFile();
@@ -41,6 +42,7 @@ private slots:
 
 private:
     void setupMenu();
+    void setConnectionForValueGetter();
 
     DataBase& m_dataBase;
     Ui::MainWindow *ui;

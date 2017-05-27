@@ -13,6 +13,7 @@ public:
     const QVector<double>& getVectorOfOrdinates() const;
     const QVector<double>& getVectorOfSevered() const;
     QString getFileName();
+    bool checkHasData();
 
     void clearDataBase();
 private:

@@ -21,6 +21,8 @@ public:
 
     void calculateAccuracyOfLinearRegresion(const std::pair<double, double> p_factors);
     std::map<Factor, double> getFactorMap();
+    void reset();
+
 private:
     void calculateAccuracyFactors(const std::pair<double, double> p_factors, const double p_sizeOfArray);
     void sumOfsquaresOfDeviations();
@@ -36,7 +38,6 @@ private:
     std::unique_ptr<ILnFromValues> m_lnFromSevered;
     const QVector<double>& m_vectorOfResultY;
     const QVector<double>& m_vectorOfResultX;
-
     std::map<Factor, double> m_factorMap;
 
 };

@@ -28,11 +28,17 @@ private slots:
 private:
     void setConnections();
     void drawPoints();
+    void clearData();
+    void tryClear();
+    void setPointsToChart();
+    std::pair<double, double> claculate();
+    void showResultOfCalculation(std::pair<double, double> p_factors);
 
     DataBase& m_dataBase;
     Calculator m_calculator;
     MainWindow* m_mainWindow;
     FileParser m_fileParser;
+    bool m_shouldClear = false;
 };
 
 #endif // CONTROLER_H

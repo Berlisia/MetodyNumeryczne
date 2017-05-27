@@ -18,6 +18,8 @@ public:
     const QVector<double> getVectorOfResultY();
     const QVector<double> getVectorOfResultX();
     std::map<Factor, double> getResultOfFactors();
+    double calculateValueFromX();
+    void reset();
 private:
     void calculateResults(std::pair<double, double> p_factors);
     void calculateAccuracy();
@@ -28,6 +30,7 @@ private:
 
     QVector<double> m_vectorOfResultY;
     QVector<double> m_vectorOfResultX;
+    std::pair<double, double> m_factors;
     Accuracy m_accuracy;
 };
 

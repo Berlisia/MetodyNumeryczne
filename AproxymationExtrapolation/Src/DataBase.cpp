@@ -12,6 +12,7 @@ void DataBase::setDataOfSevered(const double p_Y)
 
 void DataBase::setDataFileName(QString p_name)
 {
+    m_dataFileName.clear();
     m_dataFileName = p_name;
 }
 
@@ -30,9 +31,13 @@ QString DataBase::getFileName()
     return m_dataFileName;
 }
 
+bool DataBase::checkHasData()
+{
+    return !m_vectorOfOrdinates.empty() and !m_vectorOfSevered.empty();
+}
+
 void DataBase::clearDataBase()
 {
     m_vectorOfOrdinates.clear();
     m_vectorOfSevered.clear();
-    m_dataFileName.clear();
 }

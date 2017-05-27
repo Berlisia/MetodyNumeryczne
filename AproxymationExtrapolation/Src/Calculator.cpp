@@ -16,10 +16,10 @@ Calculator::Calculator(const DataBase& p_dataBase) :
 std::pair<double, double> Calculator::calculate()
 {
     m_lnFromSevered->calculateLn(m_dataBase.getVectorOfSevered());
-    std::pair<double, double> factors = m_linearyzator->calculateFactors();
-    calculateResults(factors);
-    m_accuracy.calculateAccuracyOfLinearRegresion(factors);
-    return factors;
+    m_factors = m_linearyzator->calculateFactors();
+    calculateResults(m_factors);
+    m_accuracy.calculateAccuracyOfLinearRegresion(m_factors);
+    return m_factors;
 }
 
 const QVector<double> Calculator::getVectorOfResultY()
@@ -35,6 +35,23 @@ const QVector<double> Calculator::getVectorOfResultX()
 std::map<Factor, double> Calculator::getResultOfFactors()
 {
     return m_accuracy.getFactorMap();
+}
+
+double Calculator::calculateValueFromX()
+{
+    return m_factors.first * std::exp(m_factors.second);
+}
+
+void Calculator::reset()
+{
+    m_lnFromSevered.reset(std::make_unique<LnFromValues>().get());
+    m_linearyzator.reset(std::make_unique<Linearyzator>(m_dataBase.getVectorOfOrdinates(),
+                                                         *m_lnFromSevered.get()).get());
+    m_vectorOfResultY.clear();
+    m_vectorOfResultX.clear();
+    m_factors.first = 0;
+    m_factors.second = 0;
+    m_accuracy.reset();
 }
 
 void Calculator::calculateResults(std::pair<double, double> p_factors)

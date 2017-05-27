@@ -22,6 +22,12 @@ std::map<Factor, double> Accuracy::getFactorMap()
     return m_factorMap;
 }
 
+void Accuracy::reset()
+{
+    m_lnFromSevered.reset(std::make_unique<LnFromValues>().get());
+    m_factorMap.clear();
+}
+
 void Accuracy::calculateAccuracyFactors(const std::pair<double, double> p_factors, const double p_sizeOfArray)
 {
     sumOfsquaresOfDeviations();
