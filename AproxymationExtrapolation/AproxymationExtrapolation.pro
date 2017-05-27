@@ -18,6 +18,7 @@ TARGET = AproxymationExtrapolation
 TEMPLATE = app
 
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
+QMAKE_CXXFLAGS_RELEASE -= -O2
 
 SOURCES += main.cpp\
     App/mainwindow.cpp \

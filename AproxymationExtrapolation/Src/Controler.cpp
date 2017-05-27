@@ -46,7 +46,7 @@ void Controler::tryClear()
 
 void Controler::setPointsToChart()
 {
-    m_mainWindow->showFileOk();
+    //m_mainWindow->showFileOk();
     m_mainWindow->setInputPoints(m_dataBase.getVectorOfOrdinates(), m_dataBase.getVectorOfSevered());
     m_shouldClear = true;
 }

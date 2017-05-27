@@ -2,29 +2,6 @@
 #include "App/mainwindow.h"
 #include "Src/Controler.h"
 //#include <gtest/gtest.h>
-#include <fstream>
-#include <cmath>
-#include <iostream>
-
-void generejdKupe()
-{
-    std::fstream l_file;
-    l_file.open("Data.csv", std::ios::out);
-    if(l_file.good())
-    {
-        int i = 0;
-        while(i < 10000)
-        {
-            l_file << (double)i/100 << ";" << (0.5667 * std::exp(0.7777*i/100)) << std::endl;
-            i = i + 1;
-        }
-        l_file.close();
-    }
-    else
-    {
-        std::cout << "DUUPA FaLE" << std::endl;
-    }
-}
 
 int main(int argc, char *argv[])
 {
@@ -40,7 +17,6 @@ int main(int argc, char *argv[])
 //    return 0;
 
     QApplication app(argc, argv);
-    generejdKupe();
     DataBase m_dataBase;
     MainWindow m_mainWindow(m_dataBase);
     Controler controler(m_dataBase, &m_mainWindow);
