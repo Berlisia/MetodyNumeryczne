@@ -7,11 +7,11 @@ Accuracy::Accuracy(const QVector<double>& p_vectorOfResultY, const QVector<doubl
     m_vectorOfResultY(p_vectorOfResultY),
     m_vectorOfResultX(p_vectorOfResultX)
 {
-    m_lnFromSevered = std::make_unique<LnFromValues>();
 }
 
 void Accuracy::calculateAccuracyOfLinearRegresion(const std::pair<double, double> p_factors)
 {
+    m_lnFromSevered = std::make_unique<LnFromValues>();
     m_lnFromSevered->calculateLn(m_vectorOfResultY);
     const signed l_numberOfElements = m_lnFromSevered->getVectorOfSevered().size();
     calculateAccuracyFactors(p_factors, l_numberOfElements);

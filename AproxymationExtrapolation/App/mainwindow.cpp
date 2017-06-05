@@ -34,7 +34,6 @@ void MainWindow::setResult(const QVector<double>& p_x, const QVector<double>& p_
 
 void MainWindow::setInputPoints(const QVector<double>& p_x, const QVector<double>& p_y)
 {
-    m_chartViewer.reset();
     m_chartViewer = std::make_unique<ChartViewer>(this);
     m_chartViewer->setInputPoints(p_x, p_y);
     m_chartViewer->show();
@@ -58,10 +57,10 @@ void MainWindow::showFileOk()
     m_messageBox->show();
 }
 
-void MainWindow::showFactors(std::pair<double, double> p_factors)
+void MainWindow::showFactors(FunctionFactors p_factors)// TODO
 {
-    ui->factorA->setText(QString::number(p_factors.first));
-    ui->factorB->setText(QString::number(p_factors.second));
+    ui->factorA->setText(QString::number(p_factors[0].first));
+    ui->factorB->setText(QString::number(p_factors[0].second));
 }
 
 void MainWindow::showAccuracyFactors(std::map<Factor, double> p_factors)

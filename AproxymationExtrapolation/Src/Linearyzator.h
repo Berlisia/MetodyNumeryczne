@@ -10,11 +10,10 @@ class Linearyzator : public ILinearyzator
 {
 public:
     Linearyzator(const QVector<double>& p_vectorOfOrdinates,
-                 const ILnFromValues& p_vectorOfSevered)
+                 const QVector<double>& p_vectorOfSevered)
         : m_vectorOfOrdinates(p_vectorOfOrdinates),
           m_vectorOfLnSevered(p_vectorOfSevered)
-    {
-    }
+    {}
 
     std::pair<double,double> calculateFactors() override;
 private:
@@ -24,7 +23,7 @@ private:
     double sumOfX2();
 
     const QVector<double>& m_vectorOfOrdinates; //X;
-    const ILnFromValues& m_vectorOfLnSevered; //Y;
+    const QVector<double>& m_vectorOfLnSevered; //Y;
 };
 
 template<typename It>
@@ -39,6 +38,17 @@ auto mean(It begin, It end)
 {
     auto mean = sum(begin, end) / static_cast<double>(std::distance(begin, end));
     return mean;
+}
+
+template<typename Vector>
+auto ln(Vector p_vector)
+{
+    Vector l_vectorLnValues;
+    for(auto value : p_vector)
+    {
+        l_vectorLnValues.append(log(value));
+    }
+    return l_vectorLnValues;
 }
 
 #endif // LINEARYZATOR_H

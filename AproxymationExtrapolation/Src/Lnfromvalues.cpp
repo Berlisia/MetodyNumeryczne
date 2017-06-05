@@ -8,7 +8,7 @@ const QVector<double> LnFromValues::getVectorOfSevered() const
     return m_vectorOfLnSevered;
 }
 
-void LnFromValues::calculateLn(const QVector<double>& p_vectorOfValues)
+void LnFromValues::calculateLn(QVector<double> const& p_vectorOfValues)
 {
     for(auto value : p_vectorOfValues)
     {

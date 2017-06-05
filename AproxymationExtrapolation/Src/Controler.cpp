@@ -7,13 +7,15 @@ void Controler::loadFile()
     {
         setPointsToChart();
     }
+    //TODO sortowanie po x
 }
 
 void Controler::makeCalculation()
 {
     if(m_dataBase.checkHasData())
     {
-        showResultOfCalculation(claculateFactors());
+        claculateFactors();
+        showResultOfCalculation();
     }
 }
 
@@ -46,20 +48,19 @@ void Controler::tryClear()
 
 void Controler::setPointsToChart()
 {
-    //m_mainWindow->showFileOk();
     m_mainWindow->setInputPoints(m_dataBase.getVectorOfOrdinates(), m_dataBase.getVectorOfSevered());
     m_shouldClear = true;
 }
 
-std::pair<double, double> Controler::claculateFactors()
+void Controler::claculateFactors()
 {
-    std::pair<double, double> l_factors = m_calculator.calculate();
-    return l_factors;
+    FunctionFactors l_factors = m_calculator.calculate();
+    //return l_factors;
 }
 
-void Controler::showResultOfCalculation(std::pair<double, double> p_factors)
+void Controler::showResultOfCalculation()//FunctionFactors /*p_factors*/)
 {
-    m_mainWindow->showFactors(p_factors);
+    //m_mainWindow->showFactors(p_factors);
     m_mainWindow->setResult(m_calculator.getVectorOfResultX(), m_calculator.getVectorOfResultY());
     m_mainWindow->showAccuracyFactors(m_calculator.getResultOfFactors());
 }

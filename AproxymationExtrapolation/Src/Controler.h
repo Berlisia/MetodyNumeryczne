@@ -32,8 +32,8 @@ private:
     void clearData();
     void tryClear();
     void setPointsToChart();
-    std::pair<double, double> claculateFactors();
-    void showResultOfCalculation(std::pair<double, double> p_factors);
+    void claculateFactors();
+    void showResultOfCalculation();//FunctionFactors p_factors);
 
     DataBase& m_dataBase;
     Calculator m_calculator;

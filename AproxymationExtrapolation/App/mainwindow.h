@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "Src/Accuracy.h"
 #include "ChartViewer.h"
+#include "Src/Calculator.h"
 
 #include <memory>
 #include <utility>
@@ -26,7 +27,7 @@ public:
     void setResult(const QVector<double> &p_x, const QVector<double> &p_y);
     void setInputPoints(const QVector<double> &p_x, const QVector<double> &p_y);
     void showFileOk();
-    void showFactors(std::pair<double, double> p_factors);
+    void showFactors(FunctionFactors p_factors);
     void showAccuracyFactors(std::map<Factor, double> p_factors);
     void showValueYFromValueX(double p_valueY);
     void clear();

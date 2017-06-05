@@ -8,17 +8,32 @@ Calculator::Calculator(const DataBase& p_dataBase) :
     m_dataBase(p_dataBase),
     m_accuracy(p_dataBase.getVectorOfSevered(), p_dataBase.getVectorOfOrdinates())
 {
-    m_lnFromSevered = std::make_unique<LnFromValues>();
-    m_linearyzator = std::make_unique<Linearyzator>(p_dataBase.getVectorOfOrdinates(),
-                                                    *m_lnFromSevered.get());
+    /*m_lnFromSevered = std::make_unique<LnFromValues>();
+    m_linearyzator = std::make_unique<Linearyzator>(m_dataBase.getVectorOfOrdinates(),
+                                                    *m_lnFromSevered.get());*/
 }
 
-std::pair<double, double> Calculator::calculate()
+FunctionFactors Calculator::calculate()
 {
-    m_lnFromSevered->calculateLn(m_dataBase.getVectorOfSevered());
-    m_factors = m_linearyzator->calculateFactors();
-    calculateResults(m_factors);
-    m_accuracy.calculateAccuracyOfLinearRegresion(m_factors);
+    findCompartments();
+
+    for(int i = 0; i < m_compartments.size(); i++)//indeksy X
+    {
+        QVector<double> compartmentY;//dany przedział
+        QVector<double> compartmentX;
+        for(int j = m_compartments[i]; m_dataBase.getVectorOfSevered()[j] <=
+                                          m_dataBase.getVectorOfSevered().end(); j++)//lepsze przerwanie pętli
+        {
+            compartmentY.append(m_dataBase.getVectorOfSevered()[j]);
+            compartmentX.append(m_dataBase.getVectorOfOrdinates()[j]);
+        }
+        const QVector<double> lncompartmentY = ln(compartmentY);
+        Linearyzator m_linearyzator(compartmentX, lncompartmentY);
+        std::pair<double, double> l_factors = m_linearyzator.calculateFactors();
+        m_factors.append(l_factors);
+        calculateResults(l_factors);
+        //m_accuracy.calculateAccuracyOfLinearRegresion(l_factors); //TODO moze średnia?
+    }
     return m_factors;
 }
 
@@ -39,18 +54,17 @@ std::map<Factor, double> Calculator::getResultOfFactors()
 
 double Calculator::calculateValueFromX(double p_valueX)
 {
-    return m_factors.first * std::exp(p_valueX * m_factors.second);
+    return 0;//m_factors.first * std::exp(p_valueX * m_factors.second);
 }
 
 void Calculator::reset()
 {
-    m_lnFromSevered.reset(std::make_unique<LnFromValues>().get());
-    m_linearyzator.reset(std::make_unique<Linearyzator>(m_dataBase.getVectorOfOrdinates(),
-                                                         *m_lnFromSevered.get()).get());
+//    m_lnFromSevered.reset(new LnFromValues());
+//    m_linearyzator.reset(new Linearyzator(m_dataBase.getVectorOfOrdinates(),
+//                                          *m_lnFromSevered.get()));
     m_vectorOfResultY.clear();
     m_vectorOfResultX.clear();
-    m_factors.first = 0;
-    m_factors.second = 0;
+    m_factors.clear();
     m_accuracy.reset();
 }
 
@@ -64,4 +78,36 @@ void Calculator::calculateResults(std::pair<double, double> p_factors)
         m_vectorOfResultY.append(p_factors.first * std::exp(p_factors.second * i));
     }
 
+}
+
+void Calculator::findCompartments()
+{
+    bool increase = true;
+    if(m_dataBase.getVectorOfSevered()[0] > m_dataBase.getVectorOfSevered()[1])//sprawdzenie czy zaczynamy funkcja rosnącą
+        increase = false;
+
+    double oldValue = m_dataBase.getVectorOfSevered().first();
+    for(int i = 0; i <  m_dataBase.getVectorOfSevered().size(); i++)
+    {
+        double value = m_dataBase.getVectorOfSevered()[i];
+        if(value > oldValue && increase == false)// czy nadal maleje
+        {
+            increase = true;
+            m_compartments.push_back(i - 1); //nowy przedział gdy zaczyna rosnąć
+        }
+        else if(value < oldValue && increase == true)// czy nadal rośnie
+        {
+            increase = false;
+            m_compartments.push_back(i - 1); //nowy przedział gdy zaczyna maleć
+        }
+        oldValue = value;
+    }
+
+    m_compartments.push_back(m_dataBase.getVectorOfSevered().size());
+}
+
+const QVector<double> Calculator::prepareCompartments()
+{
+    QVector<double> l;
+    return l;
 }

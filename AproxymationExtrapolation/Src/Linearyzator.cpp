@@ -15,8 +15,8 @@ double Linearyzator::calculateA1()
 {
     int n = m_vectorOfOrdinates.size();
     double sumX = sum(m_vectorOfOrdinates.begin(), m_vectorOfOrdinates.end());
-    double sumY = sum(m_vectorOfLnSevered.getVectorOfSevered().begin(),
-                      m_vectorOfLnSevered.getVectorOfSevered().end());
+    double sumY = sum(m_vectorOfLnSevered.begin(),
+                      m_vectorOfLnSevered.end());
 
     double A1 = ((n * sumOfMultiplicationXY()) - (sumX * sumY)) /
                 ((n * sumOfX2() - (sumX * sumX)));
@@ -25,8 +25,8 @@ double Linearyzator::calculateA1()
 
 double Linearyzator::calculateA0(const double factorA1)
 {
-    double averageZ = mean(m_vectorOfLnSevered.getVectorOfSevered().begin(),
-                           m_vectorOfLnSevered.getVectorOfSevered().end());
+    double averageZ = mean(m_vectorOfLnSevered.begin(),
+                           m_vectorOfLnSevered.end());
     double averageX = mean(m_vectorOfOrdinates.begin(),
                            m_vectorOfOrdinates.end());
     return averageZ - (factorA1 * averageX);
@@ -35,10 +35,10 @@ double Linearyzator::calculateA0(const double factorA1)
 double Linearyzator::sumOfMultiplicationXY()
 {
     vector<double> l_vectorMultiplication;
-    for(signed i = 0; i < m_vectorOfLnSevered.getVectorOfSevered().size(); i++)
+    for(signed i = 0; i < m_vectorOfLnSevered.size(); i++)
     {
         l_vectorMultiplication.push_back(m_vectorOfOrdinates[i] *
-                                         m_vectorOfLnSevered.getVectorOfSevered()[i]);
+                                         m_vectorOfLnSevered[i]);
     }
     return sum(l_vectorMultiplication.begin(), l_vectorMultiplication.end());
 }
@@ -47,7 +47,7 @@ double Linearyzator::sumOfMultiplicationXY()
 double Linearyzator::sumOfX2()
 {
     vector<double> l_vectorMultiplication;
-    for(signed i = 0; i < m_vectorOfLnSevered.getVectorOfSevered().size(); i++)
+    for(signed i = 0; i < m_vectorOfLnSevered.size(); i++)
     {
         l_vectorMultiplication.push_back(m_vectorOfOrdinates[i] *
                                          m_vectorOfOrdinates[i]);
