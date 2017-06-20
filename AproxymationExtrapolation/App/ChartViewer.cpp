@@ -1,5 +1,6 @@
 #include "ChartViewer.h"
 #include "ui_ChartViewer.h"
+#include <algorithm>
 
 ChartViewer::ChartViewer(QWidget *parent) :
     QDialog(parent),
@@ -35,6 +36,7 @@ void ChartViewer::setResult(const QVector<double> &p_x, const QVector<double> &p
 
 void ChartViewer::setInputPoints(const QVector<double> &p_x, const QVector<double> &p_y)
 {
+    updateAxis(p_x, p_y);
     ui->customPlot->addGraph();
     ui->customPlot->graph()->setPen(QPen(Qt::red));
     ui->customPlot->graph()->setData(p_x, p_y);
@@ -87,6 +89,6 @@ void ChartViewer::updateAxis(const QVector<double> &p_x, const QVector<double> &
     double possition2 = p_x.back();
     ui->customPlot->xAxis->setRange(possition1, possition2);
     possition1 = p_y[0];
-    possition2 = p_y.back();
+    possition2 = *std::max_element(p_y.constBegin(), p_y.constEnd());
     ui->customPlot->yAxis->setRange(possition1, possition2);
 }

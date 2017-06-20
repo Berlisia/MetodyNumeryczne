@@ -73,7 +73,8 @@ void Accuracy::correlatonCoefficient()
 
 void Accuracy::coefficientOfdetermination()
 {
-    m_factorMap[Factor::correlationCoefficient] = std::sqrt(m_factorMap[Factor::coefficientOfdetermination]);
+   double factor = std::sqrt(std::abs(m_factorMap[Factor::coefficientOfdetermination]));
+   m_factorMap[Factor::correlationCoefficient] = factor;
 }
 
 QVector<double> Accuracy::averageSquaredError()

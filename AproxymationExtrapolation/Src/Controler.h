@@ -24,7 +24,6 @@ public:
 private slots:
     void loadFile();
     void makeCalculation();
-    void calculateValueY(double);
 
 private:
     void setConnections();
@@ -32,8 +31,8 @@ private:
     void clearData();
     void tryClear();
     void setPointsToChart();
-    void claculateFactors();
-    void showResultOfCalculation();//FunctionFactors p_factors);
+    FunctionFactors claculateFactors();
+    void showResultOfCalculation(const FunctionFactors& p_factors);
 
     DataBase& m_dataBase;
     Calculator m_calculator;

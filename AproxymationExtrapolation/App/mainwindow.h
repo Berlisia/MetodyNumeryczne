@@ -16,6 +16,7 @@ class MainWindow;
 class DataBase;
 class QMessageBox;
 
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -27,9 +28,8 @@ public:
     void setResult(const QVector<double> &p_x, const QVector<double> &p_y);
     void setInputPoints(const QVector<double> &p_x, const QVector<double> &p_y);
     void showFileOk();
-    void showFactors(FunctionFactors p_factors);
-    void showAccuracyFactors(std::map<Factor, double> p_factors);
-    void showValueYFromValueX(double p_valueY);
+    void showFactors(const FunctionFactors& p_factors, const Compartments& p_compartments);
+    void showAccuracyFactors(AccuracyFactors p_factors, const Compartments &p_compartments);
     void clear();
 
 signals:
@@ -45,7 +45,6 @@ private slots:
 
 private:
     void setupMenu();
-    void setConnectionForValueGetter();
 
     DataBase& m_dataBase;
     Ui::MainWindow *ui;

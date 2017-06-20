@@ -9,6 +9,8 @@
 
 class DataBase;
 typedef QVector<std::pair<double, double>> FunctionFactors;
+typedef QVector<std::pair<int, int>> Compartments;
+typedef QVector<std::map<Factor, double>> AccuracyFactors;
 
 class Calculator
 {
@@ -18,23 +20,20 @@ public:
     FunctionFactors calculate();
     const QVector<double> getVectorOfResultY();
     const QVector<double> getVectorOfResultX();
-    std::map<Factor, double> getResultOfFactors();
-    double calculateValueFromX(double p_valueX);
+    AccuracyFactors getResultOfFactors();
+    const Compartments getCompartments();
     void reset();
 private:
-    void calculateResults(std::pair<double, double> p_factors);
+    void calculateResults(std::pair<double, double> p_factors, int begin, int end);
     void calculateAccuracy();
     void findCompartments(); //Przedziały
-    const QVector<double> prepareCompartments();
 
     const DataBase& m_dataBase;
-    //std::unique_ptr<ILnFromValues> m_lnFromSevered;
-    std::vector<int> m_compartments;
-
+    Compartments m_compartments;
     QVector<double> m_vectorOfResultY;
     QVector<double> m_vectorOfResultX;
     FunctionFactors m_factors;
-    Accuracy m_accuracy;
+    AccuracyFactors m_accuracyFactors;
 };
 
 #endif // CALCULATOR_H

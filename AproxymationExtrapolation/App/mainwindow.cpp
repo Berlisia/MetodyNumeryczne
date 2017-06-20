@@ -17,8 +17,6 @@ MainWindow::MainWindow(DataBase& p_dataBase, QWidget* parent):
 {
     ui->setupUi(this);
     setupMenu();
-    ui->valueGet->setDisabled(true);
-    setConnectionForValueGetter();
 }
 
 MainWindow::~MainWindow()
@@ -29,11 +27,11 @@ MainWindow::~MainWindow()
 void MainWindow::setResult(const QVector<double>& p_x, const QVector<double>& p_y)
 {
     m_chartViewer->setResult(p_x,p_y);
-    ui->valueGet->setEnabled(true);
 }
 
 void MainWindow::setInputPoints(const QVector<double>& p_x, const QVector<double>& p_y)
 {
+    ui->calculator->setDisabled(false);
     m_chartViewer = std::make_unique<ChartViewer>(this);
     m_chartViewer->setInputPoints(p_x, p_y);
     m_chartViewer->show();
@@ -57,37 +55,62 @@ void MainWindow::showFileOk()
     m_messageBox->show();
 }
 
-void MainWindow::showFactors(FunctionFactors p_factors)// TODO
+void MainWindow::showFactors(const FunctionFactors& p_factors, const Compartments& p_compartments)// TODO
 {
-    ui->factorA->setText(QString::number(p_factors[0].first));
-    ui->factorB->setText(QString::number(p_factors[0].second));
+    ui->tableWidget->setRowCount(p_factors.size());
+    ui->tableWidget->setColumnCount(1);
+    for(int i = 0; i < p_factors.size(); i++)
+    {
+        double firstX = m_dataBase.getVectorOfOrdinates()[p_compartments[i].first];
+        double secondX = m_dataBase.getVectorOfOrdinates()[p_compartments[i].second];
+        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(QString::number(p_factors[i].first) +
+                                                            " * exp(" +
+                                                            QString::number(p_factors[i].second) +
+                                                            " * x)  " +
+                                                            "dla " +
+                                                            QString::number(firstX) +
+                                                            " < x < " +
+                                                            QString::number(secondX)));
+    }
+    ui->tableWidget->show();
+    ui->tableWidget->verticalHeader()->hide();
+    ui->tableWidget->horizontalHeader()->hide();
+    ui->tableWidget->setVisible(true);
+    ui->tableWidget->setColumnWidth(0, 1000);
+
 }
 
-void MainWindow::showAccuracyFactors(std::map<Factor, double> p_factors)
+void MainWindow::showAccuracyFactors(AccuracyFactors p_factors, const Compartments& p_compartments)
 {  
-    ui->standardErrorOfEstymation->setText(QString::number(p_factors[Factor::standardErrorOfEstymation]));
-    ui->standardDeviationForRegresionLine->setText(QString::number(p_factors[Factor::standardDeviationForRegresionLine]));
-    ui->coefficientOfdetermination->setText(QString::number(p_factors[Factor::coefficientOfdetermination]));
-    ui->correlationCoefficient->setText(QString::number(p_factors[Factor::correlationCoefficient]));
-}
+//    ui->standardErrorOfEstymation->setText(QString::number(p_factors[Factor::standardErrorOfEstymation]));
+//    ui->standardDeviationForRegresionLine->setText(QString::number(p_factors[Factor::standardDeviationForRegresionLine]));
+//    ui->coefficientOfdetermination->setText(QString::number(p_factors[Factor::coefficientOfdetermination]));
+//    ui->correlationCoefficient->setText(QString::number(p_factors[Factor::correlationCoefficient]));
+    ui->tableWidgetAccuracy->setRowCount(p_factors.size());
+    ui->tableWidgetAccuracy->setColumnCount(1);
+    for(int i = 0; i < p_factors.size(); i++)
+    {
+        double firstX = m_dataBase.getVectorOfOrdinates()[p_compartments[i].first];
+        double secondX = m_dataBase.getVectorOfOrdinates()[p_compartments[i].second];
+        ui->tableWidgetAccuracy->setItem(i, 0, new QTableWidgetItem(QString::number(
+                                                                        p_factors[i][Factor::correlationCoefficient]) +
+                                                            " dla " +
+                                                            QString::number(firstX) +
+                                                            " < x < " +
+                                                            QString::number(secondX)));
+    }
+    ui->tableWidgetAccuracy->show();
+    ui->tableWidgetAccuracy->verticalHeader()->hide();
+    ui->tableWidgetAccuracy->horizontalHeader()->hide();
+    ui->tableWidgetAccuracy->setVisible(true);
+    ui->tableWidgetAccuracy->setColumnWidth(0, 1000);
 
-void MainWindow::showValueYFromValueX(double p_valueY)
-{
-    ui->valueDisplay->setText(QString::number(p_valueY));
+    ui->calculator->setDisabled(true);
 }
 
 void MainWindow::clear()
 {
-    ui->factorA->clear();
-    ui->factorB->clear();
-
-    ui->coefficientOfdetermination->clear();
-    ui->correlationCoefficient->clear();
-    ui->standardDeviationForRegresionLine->clear();
-    ui->standardErrorOfEstymation->clear();
-
-    ui->valueDisplay->clear();
-    ui->valueGet->setDisabled(true);
+    ui->tableWidget->clearContents();
 }
 
 void MainWindow::loadFile()
@@ -100,9 +123,4 @@ void MainWindow::setupMenu()
 {
     connect(ui->open, SIGNAL(triggered(bool)), this, SLOT(loadFile()));
     connect(ui->calculator, SIGNAL(triggered(bool)), this, SIGNAL(calculatePressed()));
-}
-
-void MainWindow::setConnectionForValueGetter()
-{
-    connect(ui->valueGet, SIGNAL(valueChanged(double)), this, SIGNAL(YValueTriggered(double)));
 }
